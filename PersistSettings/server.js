@@ -14,6 +14,9 @@ http.createServer((request, response) => {
     body = Buffer.concat(body).toString();
     // BEGINNING OF NEW STUFF
 
+    
+    console.log(body)
+    
     response.on('error', (err) => {
       console.error(err);
     });
