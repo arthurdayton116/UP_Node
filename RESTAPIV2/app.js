@@ -9,6 +9,9 @@ var express = require('express')
    , account = require('./routes/account')
    , milemarker = require('./routes/milemarker')
     , milemarkerwrite = require('./routes/milemarkerwrite')
+    , readsql = require('./routes/readsql')
+    , writesql = require('./routes/writesql')
+    , reload = require('./routes/reload')
   , http = require('http')
   , path = require('path')
 ;
@@ -36,6 +39,9 @@ app.get('/users', user.list);
 app.get('/account', account.account);
 app.get('/milemarker', milemarker.milemarker);
 app.get('/milemarkerwrite', milemarkerwrite.milemarkerwrite);
+app.get('/readsql', readsql.readsql);
+app.get('/reload', reload.reload);
+app.put('/writesql', writesql.writesql);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
