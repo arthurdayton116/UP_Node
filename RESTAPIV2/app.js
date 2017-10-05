@@ -17,6 +17,10 @@ var express = require('express')
 ;
 
 var app = express();
+var bodyParser     =        require("body-parser");
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -24,7 +28,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
-app.use(express.bodyParser());
+
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
@@ -42,6 +46,7 @@ app.get('/milemarkerwrite', milemarkerwrite.milemarkerwrite);
 app.get('/readsql', readsql.readsql);
 app.get('/reload', reload.reload);
 app.put('/writesql', writesql.writesql);
+app.post('/writesql2', writesql.newWriteSQL);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
