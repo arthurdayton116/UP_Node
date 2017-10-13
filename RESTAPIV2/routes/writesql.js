@@ -1,6 +1,6 @@
 /**
  * http://usejsdoc.org/
- */
+ */ 
 //Look here for res.json
 //https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
 
@@ -10,12 +10,15 @@ var TYPES = require('tedious').TYPES;
 
 
 exports.newWriteSQL=function(req,res){
+	var STATEID=req.body.STATEID;
+	var OBJECTNAME=req.body.OBJECTNAME; 
 	var USERNAME=req.body.USERNAME;
 	var PAGENAME=req.body.PAGENAME;
 	var PATH=req.body.PATH;
 	var SUBDIVISION=req.body.SUBDIVISION;
 	var GRADECHART=req.body.GRADECHART;
-	var OBJECTSTRING=JSON.stringify(req.body.OBJECTSTRING);
+	//var OBJECTSTRING=JSON.stringify(req.body.OBJECTSTRING);
+	var OBJECTSTRING=req.body.OBJECTSTRING;
 	
 	// Create connection to database
 	var config = {
@@ -43,7 +46,7 @@ exports.newWriteSQL=function(req,res){
 		    console.log("Inserting into Table...");
 
 		    request = new Request(
-		        'insert into CUSTOMIZATIONSTORAGE  (USERNAME,PAGENAME,PATH,SUBDIVISION,GRADECHART,OBJECTSTRING) values(@user,@version,@path,@sub,@grade,@jjson)',
+		        'insert into CUSTOMIZATIONSTORAGE  (STATEID,OBJECTNAME,USERNAME,PAGENAME,PATH,SUBDIVISION,GRADECHART,OBJECTSTRING) values(@state,@object,@user,@pagename,@path,@sub,@grade,@jjson)',
 		        function(err, rowCount, rows) {
 			        if (err) {
 			            console.log(err);
@@ -52,8 +55,10 @@ exports.newWriteSQL=function(req,res){
 			            //callback(null, 'Nikita', 'United States');
 			        }
 		        });
+		    request.addParameter('state', TYPES.NVarChar, STATEID);
+		    request.addParameter('object', TYPES.NVarChar, OBJECTNAME);
 		    request.addParameter('user', TYPES.NVarChar, USERNAME);
-		    request.addParameter('version', TYPES.NVarChar, PAGENAME);
+		    request.addParameter('pagename', TYPES.NVarChar, PAGENAME);
 		    request.addParameter('path', TYPES.NVarChar, PATH);
 		    request.addParameter('sub', TYPES.NVarChar, SUBDIVISION);
 		    request.addParameter('grade', TYPES.NVarChar, GRADECHART);

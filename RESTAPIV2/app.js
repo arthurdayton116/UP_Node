@@ -18,9 +18,9 @@ var express = require('express')
 
 var app = express();
 var bodyParser     =        require("body-parser");
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb',parameterLimit: 100000, extended: true }));
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -39,6 +39,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.get('/page', routes.index2);
 app.get('/users', user.list);
 app.get('/account', account.account);
 app.get('/milemarker', milemarker.milemarker);
@@ -47,6 +48,7 @@ app.get('/readsql', readsql.readsql);
 app.get('/reload', reload.reload);
 app.put('/writesql', writesql.writesql);
 app.post('/writesql2', writesql.newWriteSQL);
+app.get('/readsql2', readsql.readsql2);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
