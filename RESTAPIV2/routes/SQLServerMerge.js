@@ -4,10 +4,12 @@
 //Look here for res.json
 //https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
 
-var Connection = require('tedious').Connection;
-var Request = require('tedious').Request;
+//var Connection = require('tedious').Connection;
+//var Request = require('tedious').Request;
 var TYPES = require('tedious').TYPES;
 
+//custom module so we don't have to rewrite connection every time
+SQLConnect=require('../tools/SQLServerCommon');  
 
 exports.merge=function(req,res){
 	var STATEID=req.body.STATEID;
@@ -18,17 +20,9 @@ exports.merge=function(req,res){
 	var SUBDIVISION=req.body.SUBDIVISION;
 	var GRADECHART=req.body.GRADECHART;
 	var OBJECTSTRING=req.body.OBJECTSTRING;
-	
+
 	// Create connection to database
-	var config = {
-	  userName: 'NPMUSER', // update me
-	  password: '1yJ2BycH', // update me
-	  server: 'sqltestinstance.c9z65c1hrnkv.us-west-2.rds.amazonaws.com',
-	  options: {
-	      database: 'TESTINGNPMWRITEBACK'
-	  }
-	}
-	var connection = new Connection(config);
+	  var connection=SQLConnect.myConnection();
 	
 	  // Attempt to connect and execute queries if connection goes through
 	  connection.on('connect', function(err) {
@@ -43,17 +37,12 @@ exports.merge=function(req,res){
 	
 		function InsertPayload() {
 		    console.log("Inserting into Table...");
+		    
+		    sqlstmt= 'insert into CUSTOMIZATIONSTORAGE  (STATEID,OBJECTNAME,USERNAME,PAGENAME,PATH,SUBDIVISION,GRADECHART,OBJECTSTRING) values(@state,@object,@user,@pagename,@path,@sub,@grade,@jjson)';
+			   
+		    
+		    var request=SQLConnect.myRequest(sqlstmt,res);
 
-		    request = new Request(
-		        'insert into CUSTOMIZATIONSTORAGE  (STATEID,OBJECTNAME,USERNAME,PAGENAME,PATH,SUBDIVISION,GRADECHART,OBJECTSTRING) values(@state,@object,@user,@pagename,@path,@sub,@grade,@jjson)',
-		        function(err, rowCount, rows) {
-			        if (err) {
-			            console.log(err);
-			        } else {
-			            console.log(rowCount + ' row(s) inserted');
-			            //callback(null, 'Nikita', 'United States');
-			        }
-		        });
 		    request.addParameter('state', TYPES.NVarChar, STATEID);
 		    request.addParameter('object', TYPES.NVarChar, OBJECTNAME);
 		    request.addParameter('user', TYPES.NVarChar, USERNAME);

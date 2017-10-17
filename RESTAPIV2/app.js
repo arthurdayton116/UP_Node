@@ -12,7 +12,10 @@ var express = require('express')
     , readsql = require('./routes/readsql')
     , writesql = require('./routes/writesql')
     , reload = require('./routes/reload')
+    
     , stateList = require('./routes/SQLServerReadStateList')
+    , stateChange = require('./routes/SQLServerMerge')
+    
   , http = require('http')
   , path = require('path')
 ;
@@ -50,8 +53,10 @@ app.get('/reload', reload.reload);
 app.put('/writesql', writesql.writesql);
 app.post('/writesql2', writesql.newWriteSQL);
 app.get('/readsql2', readsql.readsql2);
+
 app.get('/StateList', stateList.getListofStateID);
 app.get('/ObjectString', stateList.getObjectString);
+app.post('/StateChange', stateChange.merge);
 
 
 http.createServer(app).listen(app.get('port'), function(){
