@@ -21,7 +21,7 @@ exports.getObjectString = function(req, res){commonFetch(req, res,'getObjectStri
 	function commonFetch(req, res,route) {
 
 	var SQLresponse={};
-	SQLresponse.rows=[];
+	SQLresponse.results=[];
 	var respUser;
 	var respStateID;
 	var respStateDescr;
@@ -86,7 +86,8 @@ exports.getObjectString = function(req, res){commonFetch(req, res,'getObjectStri
 			            
 			          });
 			          
-			          SQLresponse.rows.push({"USERNAME":respUser,"STATEID":respStateID,"STATE_DESCR":respStateDescr})
+			          //SQLresponse.rows.push({"USERNAME":respUser,"STATEID":respStateID,"STATE_DESCR":respStateDescr})
+			          SQLresponse.results.push({"text":respStateID,"id":respStateID})
 			          console.log(JSON.stringify(SQLresponse))	
 			          
 		        });
