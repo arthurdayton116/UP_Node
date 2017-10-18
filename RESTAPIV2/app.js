@@ -56,6 +56,7 @@ app.get('/readsql2', readsql.readsql2);
 
 app.get('/StateList', stateList.getListofStateID);
 app.get('/ObjectString', stateList.getObjectString);
+app.get('/CheckState', stateList.checkExistence);
 app.post('/StateChange', stateChange.merge);
 
 
