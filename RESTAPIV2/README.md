@@ -47,3 +47,8 @@ SQL Server
 sqltestinstance.c9z65c1hrnkv.us-west-2.rds.amazonaws.com,1433
 
 npm install body-parser
+
+## Jon Notes
+cd c:\Users\jon\Desktop\REPO\UP_Node\RESTAPIV2
+nodemon app.js
+
