@@ -23,6 +23,7 @@ exports.myConnection = function() {
 }
 
 exports.myRequest = function(sqlstmt,res) {
+	
 	return new Ted_Request(sqlstmt, function(err, rowCount) {
 	    if (err) {
 	      console.log(err);
@@ -33,4 +34,5 @@ exports.myRequest = function(sqlstmt,res) {
 	  	}
 	    }
 	  });
+	
 }

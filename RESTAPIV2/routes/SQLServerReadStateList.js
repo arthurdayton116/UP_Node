@@ -56,7 +56,7 @@ exports.getObjectString = function(req, res){commonFetch(req, res,'getObjectStri
 	    		return res.send({"status": "error", "message": "missing user or  path"});
 	    	}
 	    	else{
-		    	var sqlstmt="SELECT [USERNAME],[STATEID],[STATEID_DESCR] FROM [TESTINGNPMWRITEBACK].[dbo].[CUSTOMIZATIONSTORAGE] " +
+		    	var sqlstmt="SELECT [USERNAME],[STATEID],[STATEID_DESCR] FROM [TESTINGNPMWRITEBACK].[dbo].[UP_SAVED_STATE] " +
 		    			"where [USERNAME]=@USER and [PATH]=@PATH"
 	    	
 		    	var request=SQLConnect.myRequest(sqlstmt,res);
@@ -109,7 +109,7 @@ exports.getObjectString = function(req, res){commonFetch(req, res,'getObjectStri
 	    	else{
 	    		
 	    		
-	    	var sqlstmt="SELECT [OBJECTSTRING] FROM [TESTINGNPMWRITEBACK].[dbo].[CUSTOMIZATIONSTORAGE] " +
+	    	var sqlstmt="SELECT [OBJECTSTRING] FROM [TESTINGNPMWRITEBACK].[dbo].[UP_SAVED_STATE] " +
 	    			"where [USERNAME]=@USER and [STATEID]=@STATEID and [PATH]=@PATH"
 	    	
 	    	var request=SQLConnect.myRequest(sqlstmt,res);
@@ -130,7 +130,7 @@ exports.getObjectString = function(req, res){commonFetch(req, res,'getObjectStri
 		          //  objnew=JSON.parse(column.value)
 		           // console.log('val: '+objnew.value1)
 		            
-		             SQLresponse.rows.push({"OBJECTSTRING":column.value})
+		             SQLresponse.results.push({"OBJECTSTRING":column.value})
 		          //  return res.send(JSON.stringify(objnew))
 
 		            }
