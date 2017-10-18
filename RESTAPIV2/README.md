@@ -5,8 +5,36 @@
 
 
 ## Usage
+POST Operation - This is a merge and returns results of merge
+Action is operation performed
+Deleted is deleted values and Inserted is inserted values
+Merge update operation generates delete and insert
 
+Request:
+http://localhost:3000/StateChange
+Body:
+{"STATEID":"state3","OBJECTNAME":"blah","USERNAME":"user1","PATH":"/path/tothe/page",  "OBJECTSTRING":"No Worries"}
 
+Response:
+{"results":[{"Action":"UPDATE","deleted":{"D_ID":4,"D_USERNAME":"user1","D_PATH":"/path/tothe/page","D_STATEID":"state3","D_OBJECTNAME":"blah","D_STATEID_DESCR":"state3"},"inserted":{"I_ID":4,"I_USERNAME":"user1","I_PATH":"/path/tothe/page","I_STATEID":"state3","I_OBJECTNAME":"blah","I_STATEID_DESCR":"state3"}}]}
+length: 314 bytes Top  Bottom  2Request  Copy  Download
+
+GET OPERATIONS
+StateList - Returns list of page states based on USERNAME and PATH parameters
+
+Request:
+http://localhost:3000/StateList?USERNAME=user1&PATH=/path/tothe/page
+
+Response:
+{"results":[{"text":"state3","id":4}]}
+
+ObjectString - Returns JSON string of object based on USERNAME and PATH and STATEID parameters
+
+Request:
+http://localhost:3000/ObjectString?USERNAME=user1&PATH=/path/tothe/page&STATEID=state3
+
+Response:
+{"results":[{"OBJECTSTRING":"No Worries"}]}
 
 ## Developing
 

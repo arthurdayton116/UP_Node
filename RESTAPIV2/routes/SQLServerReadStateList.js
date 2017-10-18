@@ -25,6 +25,7 @@ exports.getObjectString = function(req, res){commonFetch(req, res,'getObjectStri
 	var respUser;
 	var respStateID;
 	var respStateDescr;
+	var respIDColumn;
 	
 	// Create connection to database
 	  var connection=SQLConnect.myConnection();
@@ -56,7 +57,7 @@ exports.getObjectString = function(req, res){commonFetch(req, res,'getObjectStri
 	    		return res.send({"status": "error", "message": "missing user or  path"});
 	    	}
 	    	else{
-		    	var sqlstmt="SELECT [USERNAME],[STATEID],[STATEID_DESCR] FROM [TESTINGNPMWRITEBACK].[dbo].[UP_SAVED_STATE] " +
+		    	var sqlstmt="SELECT [ID_COLUMN],[USERNAME],[STATEID],[STATEID_DESCR] FROM [TESTINGNPMWRITEBACK].[dbo].[UP_SAVED_STATE] " +
 		    			"where [USERNAME]=@USER and [PATH]=@PATH"
 	    	
 		    	var request=SQLConnect.myRequest(sqlstmt,res);
@@ -83,11 +84,14 @@ exports.getObjectString = function(req, res){commonFetch(req, res,'getObjectStri
 			            else if(column.metadata.colName=='STATEID_DESCR'){
 			            	respStateDescr=column.value;
 			            }
+			            else if(column.metadata.colName=='ID_COLUMN'){
+			            	respIDColumn=column.value;
+			            }
 			            
 			          });
 			          
 			          //SQLresponse.rows.push({"USERNAME":respUser,"STATEID":respStateID,"STATE_DESCR":respStateDescr})
-			          SQLresponse.results.push({"text":respStateID,"id":respStateID})
+			          SQLresponse.results.push({"text":respStateID,"id":respIDColumn})
 			          console.log(JSON.stringify(SQLresponse))	
 			          
 		        });
