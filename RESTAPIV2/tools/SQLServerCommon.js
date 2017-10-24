@@ -10,11 +10,11 @@ exports.myConnection = function() {
 			
 	// Create connection to database
 	var config = {
-	  userName: 'NPMUSER', // update me
-	  password: '1yJ2BycH', // update me
-	  server: 'sqltestinstance.c9z65c1hrnkv.us-west-2.rds.amazonaws.com',
+	  userName: 'obiee_safety_nodejs', // update me
+	  password: 'UPsafety201710', // update me
+	  server: 'wftsqldev.wft.tla.uprr.com',
 	  options: {
-	      database: 'TESTINGNPMWRITEBACK'
+	      database: 'EBI_SAFE'
 	  }
 	
 	}

@@ -7,7 +7,9 @@ var TYPES = require('tedious').TYPES;
 //custom module so we don't have to rewrite connection every time
 SQLConnect=require('../tools/SQLServerCommon');  
 
-exports.merge=function(req,res){
+exports.merge=function(req,res,next){
+	//  res.setHeader("Access-Control-Allow-Origin", "*");
+	//  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
 	var SQLresponse={};
 	SQLresponse.results=[];
@@ -37,10 +39,10 @@ exports.merge=function(req,res){
 		    		"target.STATEID = source.StateID)  " +
 		    		"WHEN MATCHED THEN " +
 		    		"UPDATE SET USERNAME = source.Username, PATH=source.Path,STATEID=source.StateID," +
-		    		"OBJECTSTRING=source.ObjectString,OBJECTNAME=source.ObjectName,STATEID_DESCR=source.StateDescr " +
+		    		"OBJECTSTRING=source.ObjectString,OBJECTNAME=source.ObjectName,STATEID_DESCR=source.StateDescr,UPDATEDATETIME=getdate() " +
 		    		"WHEN NOT MATCHED THEN  " +
-		    		"INSERT (Username,Path, StateID,ObjectString,ObjectName,STATEID_DESCR)" +
-		    		" VALUES (source.UserName, source.Path, source.StateID,source.ObjectString,source.ObjectName,source.StateDescr)" +
+		    		"INSERT (Username,Path, StateID,ObjectString,ObjectName,STATEID_DESCR,UPDATEDATETIME)" +
+		    		" VALUES (source.UserName, source.Path, source.StateID,source.ObjectString,source.ObjectName,source.StateDescr,getdate())" +
 		    		"OUTPUT $action,  deleted.ID_COLUMN as D_ID, deleted.USERNAME as D_USERNAME, deleted.PATH as D_PATH, deleted.STATEID as D_STATEID," +
 		    		" deleted.OBJECTNAME as D_OBJECTNAME, deleted.STATEID_DESCR as D_STATEID_DESCR, inserted.ID_COLUMN as I_ID, inserted.USERNAME as I_USERNAME," +
 		    		" inserted.PATH as I_PATH, inserted.STATEID as I_STATEID, inserted.OBJECTNAME as I_OBJECTNAME, inserted.STATEID_DESCR as I_STATEID_DESCR;"

@@ -4,16 +4,12 @@
  */
 
 var express = require('express')
+// , cors = require('cors') 
   , routes = require('./routes')
-  , user = require('./routes/user')
-   , account = require('./routes/account')
-   , milemarker = require('./routes/milemarker')
-    , milemarkerwrite = require('./routes/milemarkerwrite')
-    , readsql = require('./routes/readsql')
-    , writesql = require('./routes/writesql')
-    , reload = require('./routes/reload')
-    
-    , stateList = require('./routes/SQLServerReadStateList')
+ 
+    , checkState = require('./routes/SQLServerGetCheckState')
+     , stateList = require('./routes/SQLServerGetStateList')
+    , objectFetch = require('./routes/SQLServerGetObject')
     , stateChange = require('./routes/SQLServerMerge')
     
   , http = require('http')
@@ -21,6 +17,14 @@ var express = require('express')
 ;
 
 var app = express();
+app.use(function(req, res, next) {
+	   res.header("Access-Control-Allow-Origin", "*");
+	   res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST');
+	   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	   next();
+	});
+
+
 var bodyParser     =        require("body-parser");
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb',parameterLimit: 100000, extended: true }));
@@ -42,21 +46,13 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/page', routes.index2);
-app.get('/users', user.list);
-app.get('/account', account.account);
-app.get('/milemarker', milemarker.milemarker);
-app.get('/milemarkerwrite', milemarkerwrite.milemarkerwrite);
-app.get('/readsql', readsql.readsql);
-app.get('/reload', reload.reload);
-app.put('/writesql', writesql.writesql);
-app.post('/writesql2', writesql.newWriteSQL);
-app.get('/readsql2', readsql.readsql2);
 
+
+//app.get('/', routes.index);
+app.get('/test', routes.index2);
 app.get('/StateList', stateList.getListofStateID);
-app.get('/ObjectString', stateList.getObjectString);
-app.get('/CheckState', stateList.checkExistence);
+app.get('/ObjectString', objectFetch.getObject);
+app.get('/CheckState', checkState.checkExistence);
 app.post('/StateChange', stateChange.merge);
 
 
